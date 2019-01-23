@@ -7,6 +7,19 @@ function saveSettings() {
     }
     chrome.storage.sync.set(settings, function() {
         console.log('Saved!', settings)
+        let url = "https://bitsflow.org/favicon.png"
+        chrome.notifications.create(
+            options = {
+                "type": "basic",
+                "title": "ToolsBox",
+                "iconUrl": url,
+                "message": "Settings saved!",
+            },
+            function() {
+                if (chrome.runtime.lastError) {
+                    alert(chrome.runtime.lastError.message);
+                }
+            })
     });
 }
 
@@ -36,6 +49,4 @@ chrome.storage.sync.get(['searchEngine', 'APICollectImage'], function(settings) 
     } else {
         $("#searchEngine").val(settings.searchEngine);
     }
-
-    saveSettings();
 });
