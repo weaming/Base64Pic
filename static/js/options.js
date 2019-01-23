@@ -11,6 +11,14 @@ function saveSettings() {
 }
 
 $("#saveButton").click(saveSettings);
+$(window).keydown(function(e) {
+    /*ctrl+s or command+s*/
+    if ((e.metaKey || e.ctrlKey) && e.keyCode == 83) {
+        saveSettings();
+        e.preventDefault();
+        return false;
+    }
+});
 
 chrome.storage.sync.get(['searchEngine', 'APICollectImage'], function(settings) {
     let defaultAPICollectImage = 'https://api.drink.cafe/api/services/images.create';
