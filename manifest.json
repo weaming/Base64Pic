@@ -1,10 +1,10 @@
 {
   "manifest_version": 2,
   "name": "ToolsBox",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "weaming",
   "offline_enabled": true,
-  "description": "Encode Picture with Base64.\n\nExt:\n  1. Undirect in google search.\n  2. Google search \"g<TAB>\"",
+  "description": "Encode Picture with Base64.\n\nExt:\n  1. Undirect in google search.\n  2. Google search \"g<TAB>\".\n 3. Collect image url via API",
   "homepage_url": "https://chrome.google.com/webstore/detail/toolsbox/ccklajfbopbcmpfjoggmbgncoaihablh",
   "omnibox": { "keyword" : "g" },
   "icons": {

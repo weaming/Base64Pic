@@ -1,38 +1,63 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <title>配置选项</title>
     <style type="text/css">
-        li{list-style: none;}
-        label{font-size: 18px;text-align: center;}
+        li {
+            list-style: none;
+            text-align: right;
+        }
+
+        label {
+            font-size: 18px;
+            text-align: center;
+        }
     </style>
     <link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css">
 </head>
+
 <body>
     <div class="container">
-        <h1>ToolsBox</h1>
-        <ul class="nav nav-pills nav-stacked col-sm-2">
-            <li role="presentation"><a href="#settings">设定</a></li>
-            <li role="presentation"><a href="#about">关于</a></li>
-        </ul>
-
-        <div class="col-sm-10">
-            <div class="form-group col-sm-12">
-                <h3><span class="glyphicon glyphicon-wrench" id="settings"></span>设定</h3><hr>
-                <label class="col-sm-3">Google搜索地址：</label>
-                <div class="col-sm-6">
-                    <input type="text" class="form-control" id="searchEngine">
-                </div>
-                <a class="btn btn-success col-sm-2" id="saveSearch">
-                    <span class="glyphicon glyphicon-ok-circle"></span>
-                    <span>Save</span>
-                </a>
+        <div class="row">
+            <h1>ToolsBox</h1>
+        </div>
+        <div class="row">
+            <ul class="nav nav-pills nav-stacked col-sm-1">
+                <li role="presentation"><a href="#settings">设定</a></li>
+                <li role="presentation"><a href="#about">关于</a></li>
+            </ul>
+            <div class="col-sm-1">
             </div>
 
-            <div class="col-sm-12">
-                <h3 id="about"><span class="glyphicon glyphicon-user"></span>关于</h3><hr>
-                <a href="https://github.com/weaming/ToolsBox" target="_blank">https://github.com/weaming/ToolsBox</a>
+            <div class="col-sm-10">
+                <div class="row">
+                    <h3><span class="glyphicon glyphicon-wrench" id="settings"></span>设定</h3>
+                    <hr>
+                    <form>
+                        <div class="form-group">
+                            <label for="searchEngine">Google搜索地址</label>
+                            <input type="text" class="form-control" id="searchEngine">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="APICollectImage">收藏图片接口</label>
+                            <input type="text" class="form-control" id="APICollectImage">
+                        </div>
+
+                        <button class="btn btn-success pull-right" id="saveButton">
+                          <span class="glyphicon glyphicon-ok-circle"></span>
+                          Save
+                        </button>
+                    </form>
+                </div>
+
+                <div class="row">
+                    <h3 id="about"><span class="glyphicon glyphicon-user"></span>关于</h3>
+                    <hr>
+                    <a href="https://github.com/weaming/ToolsBox" target="_blank">https://github.com/weaming/ToolsBox</a>
+                </div>
             </div>
         </div>
     </div>
@@ -43,4 +68,5 @@
         <script src="static/js/options.js"></script>
     </footer>
 </body>
+
 </html>
