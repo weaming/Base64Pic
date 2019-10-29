@@ -1,37 +1,40 @@
 {
   "manifest_version": 2,
   "name": "ToolsBox",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "weaming",
   "offline_enabled": true,
   "description": "Encode Picture with Base64.\n\nExt:\n  1. Undirect in google search.\n  2. Google search \"g<TAB>\".\n 3. Collect image url via API",
   "homepage_url": "https://chrome.google.com/webstore/detail/toolsbox/ccklajfbopbcmpfjoggmbgncoaihablh",
-  "omnibox": { "keyword" : "g" },
+  "omnibox": { "keyword": "g" },
   "icons": {
     "16": "icons/b64pic-16.png",
     "48": "icons/b64pic-48.png",
     "64": "icons/b64pic-64.png",
     "128": "icons/b64pic-128.png"
-    },
+  },
   "background": {
     "scripts": ["static/js/jquery-2.2.2.min.js", "static/js/bg.js"]
   },
-  "permissions": ["tabs", "*://*/*","clipboardRead", "clipboardWrite", "notifications", "storage", "contextMenus"],
+  "permissions": [
+    "tabs",
+    "*://*/*",
+    "clipboardRead",
+    "clipboardWrite",
+    "notifications",
+    "storage",
+    "contextMenus"
+  ],
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "browser_action": {
     "default_title": "用Base64编码你所看到的图片",
     "default_icon": "icons/b64pic-128.png",
     "default_popup": "popup.html"
   },
-  "web_accessible_resources": [
-    "static/*"
-  ],
+  "web_accessible_resources": ["static/*"],
   "content_scripts": [
     {
-      "matches": [
-        "*://*.google.com/*",
-        "*://*.google.com.hk/*"
-      ],
+      "matches": ["*://*.google.com/*", "*://*.google.com.hk/*"],
       "js": ["ext/singleJS/undirect.js"]
     },
     {
