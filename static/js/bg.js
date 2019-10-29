@@ -60,11 +60,36 @@ function collectImage(info, tab) {
     if (settings.APICollectImage) {
       API = settings.APICollectImage;
     }
-    doRequest(API, url);
+    POST(
+      API,
+      {
+        url: url,
+        title: document.title,
+        meta: {
+          via: "chrome extenion"
+        }
+      },
+      reponse => {
+        chrome.notifications.create(
+          (notificationId = url),
+          (options = {
+            type: "basic",
+            title: "ToolsBox",
+            iconUrl: url,
+            message: `succeed collect ${url}`
+          }),
+          function() {
+            if (chrome.runtime.lastError) {
+              alert(chrome.runtime.lastError.message);
+            }
+          }
+        );
+      }
+    );
   });
 }
 
-function doRequest(API, url) {
+function POST(API, data, cbJSON) {
   fetch(API, {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
     mode: "cors", // no-cors, cors, *same-origin
@@ -74,31 +99,10 @@ function doRequest(API, url) {
     },
     redirect: "follow", // manual, *follow, error
     referrer: "no-referrer", // no-referrer, *client
-    body: JSON.stringify({
-      url: url,
-      title: document.title,
-      meta: {
-        via: "chrome extenion"
-      }
-    })
+    body: JSON.stringify(data)
   })
     .then(res => res.json())
-    .then(reponse => {
-      chrome.notifications.create(
-        (notificationId = url),
-        (options = {
-          type: "basic",
-          title: "ToolsBox",
-          iconUrl: url,
-          message: `succeed collect ${url}`
-        }),
-        function() {
-          if (chrome.runtime.lastError) {
-            alert(chrome.runtime.lastError.message);
-          }
-        }
-      );
-    })
+    .then(cbJSON)
     .catch(error => console.log("Error:", error));
 }
 
@@ -112,6 +116,11 @@ let menuProperties = [
     title: "收藏这张图片",
     contexts: ["image"],
     onclick: collectImage
+  },
+  {
+    title: "上传图床 sm.ms",
+    contexts: ["image"],
+    onclick: uploadImageSMMS
   }
 ];
 

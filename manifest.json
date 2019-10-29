@@ -4,7 +4,7 @@
   "version": "0.0.4",
   "author": "weaming",
   "offline_enabled": true,
-  "description": "Encode Picture with Base64.\n\nExt:\n  1. Undirect in google search.\n  2. Google search \"g<TAB>\".\n 3. Collect image url via API",
+  "description": "Encode Picture with Base64.\n\nExt:\n  1. Disable redirect link in google search.\n  2. Google search \"g<TAB>\".\n 3. Collect image url via API.\n 4. Upload image to https://sm.ms",
   "homepage_url": "https://chrome.google.com/webstore/detail/toolsbox/ccklajfbopbcmpfjoggmbgncoaihablh",
   "omnibox": { "keyword": "g" },
   "icons": {
@@ -27,7 +27,7 @@
   ],
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "browser_action": {
-    "default_title": "用Base64编码你所看到的图片",
+    "default_title": "Toolbox of weaming",
     "default_icon": "icons/b64pic-128.png",
     "default_popup": "popup.html"
   },
