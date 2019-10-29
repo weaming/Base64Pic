@@ -53,6 +53,59 @@ function base64EncodeImage(info, tab) {
   };
 }
 
+function POST(API, data, cbJSON) {
+  fetch(API, {
+    method: "POST", // *GET, POST, PUT, DELETE, etc.
+    mode: "cors", // no-cors, cors, *same-origin
+    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    headers: {
+      "Content-Type": "application/json"
+    },
+    redirect: "follow", // manual, *follow, error
+    referrer: "no-referrer", // no-referrer, *client
+    body: JSON.stringify(data)
+  })
+    .then(res => res.json())
+    .then(cbJSON)
+    .catch(error => console.log("Error:", error));
+}
+
+const copyToClipboard = str => {
+  // Create a <textarea> element
+  // Set its value to the string that you want copied
+  // Make it readonly to be tamper-proof
+
+  // Move outside the screen to make it invisible
+  // Append the <textarea> element to the HTML document
+
+  // Check if there is any content selected previously
+  // Store selection if found
+  // Mark as false to know no selection existed before
+  // Select the <textarea> content
+  // Copy - only works as a result of a user action (e.g. click events)
+  // Remove the <textarea> element
+  // If a selection existed before copying
+  // Unselect everything on the HTML document
+  // Restore the original selection
+  const el = document.createElement("textarea");
+  el.value = str;
+  el.setAttribute("readonly", "");
+  el.style.position = "absolute";
+  el.style.left = "-9999px";
+  document.body.appendChild(el);
+  const selected =
+    document.getSelection().rangeCount > 0
+      ? document.getSelection().getRangeAt(0)
+      : false;
+  el.select();
+  document.execCommand("copy");
+  document.body.removeChild(el);
+  if (selected) {
+    document.getSelection().removeAllRanges();
+    document.getSelection().addRange(selected);
+  }
+};
+
 function collectImage(info, tab) {
   let url = info.srcUrl;
   let API = "https://api.drink.cafe/api/services/images.create";
@@ -69,41 +122,59 @@ function collectImage(info, tab) {
           via: "chrome extenion"
         }
       },
-      reponse => {
-        chrome.notifications.create(
-          (notificationId = url),
-          (options = {
-            type: "basic",
-            title: "ToolsBox",
-            iconUrl: url,
-            message: `succeed collect ${url}`
-          }),
+      function(reponse) {
+        console.log(response);
+        chrome.notifications.create(url, {
+          type: "basic",
+          title: "ToolsBox",
+          iconUrl: url,
+          message: `succeed collect ${url}`
+        }),
           function() {
             if (chrome.runtime.lastError) {
               alert(chrome.runtime.lastError.message);
             }
-          }
-        );
+          };
       }
     );
   });
 }
 
-function POST(API, data, cbJSON) {
-  fetch(API, {
-    method: "POST", // *GET, POST, PUT, DELETE, etc.
-    mode: "cors", // no-cors, cors, *same-origin
-    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-    headers: {
-      "Content-Type": "application/json"
-    },
-    redirect: "follow", // manual, *follow, error
-    referrer: "no-referrer", // no-referrer, *client
-    body: JSON.stringify(data)
-  })
-    .then(res => res.json())
-    .then(cbJSON)
-    .catch(error => console.log("Error:", error));
+function uploadImageSMMS(info, tab) {
+  let url = info.srcUrl;
+  let API = "https://hooks.drink.cafe/hook/smms";
+  chrome.storage.sync.get(["APIForwardSMMS"], function(settings) {
+    if (settings.APIForwardSMMS) {
+      API = settings.APIForwardSMMS;
+    }
+    POST(
+      API,
+      {
+        url: url
+      },
+      function(response) {
+        if (response.success) {
+          copyToClipboard(response.url);
+          chrome.notifications.create(
+            url,
+            {
+              type: "basic",
+              title: "ToolsBox",
+              iconUrl: url,
+              message: `succeed upload ${url}`
+            },
+            function() {
+              if (chrome.runtime.lastError) {
+                alert(chrome.runtime.lastError.message);
+              }
+            }
+          );
+        } else {
+          console.log(response);
+        }
+      }
+    );
+  });
 }
 
 let menuProperties = [
